@@ -4,9 +4,14 @@ import { Link, useNavigate} from "react-router-dom";
 const HomePage = (props) => {
     const navigate = useNavigate();
 
-    function handleClick(collection) {
+    function navigateCollection(collection) {
         debugger
         navigate("/collection", { state: {...collection}});
+    }
+
+    function navigateDeletion(collection) {
+        debugger
+        navigate("/deletecollection", { state: {...collection}});
     }
 
     return (
@@ -17,7 +22,8 @@ const HomePage = (props) => {
                         {props.collections.map((collection, index) => {
                             return (
                                 <li key={collection.id}>
-                                    <button onClick={() => handleClick(collection)}>{collection.name}</button>
+                                    <button onClick={() => navigateCollection(collection)}>{collection.name}</button>
+                                    <button style={{ "marginLeft": "1em" }} className="btn btn-outline-secondary"onClick={() => navigateDeletion(collection)} data-toggle="popover" title="Delete Collection" data-content="Delete Collection" trigger="hover">&nbsp;<i className="bi bi-trash">&nbsp;&nbsp;</i></button>
                                 </li>
                             )
                         }

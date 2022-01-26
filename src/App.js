@@ -5,6 +5,7 @@ import jwt_decode from "jwt-decode";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import HomePage from './Components/HomePage.jsx/HomePage';
 import CollectionViewer from './Components/CollectionViewer/CollectionViewer';
+import DeleteCollection from './Components/DeleteCollection/DeleteCollection';
 
 function App() {
   const [user, setUser] = useState(undefined);
@@ -83,6 +84,7 @@ function App() {
         <Routes>
           <Route exact path='/' element={<HomePage collections={collections}/>}/>
           <Route path='/collection' element={<CollectionViewer />}/>
+          <Route path='/deletecollection' element={<DeleteCollection />}/>
         </Routes>
       </div>
     );
