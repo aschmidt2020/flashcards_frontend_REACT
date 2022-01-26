@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
+import EditCollection from '../EditCollection/EditCollection';
 
 const HomePage = (props) => {
     const navigate = useNavigate();
@@ -24,6 +25,7 @@ const HomePage = (props) => {
                                 <li key={collection.id}>
                                     <button onClick={() => navigateCollection(collection)}>{collection.name}</button>
                                     <button style={{ "marginLeft": "1em" }} className="btn btn-outline-secondary"onClick={() => navigateDeletion(collection)} data-toggle="popover" title="Delete Collection" data-content="Delete Collection" trigger="hover">&nbsp;<i className="bi bi-trash">&nbsp;&nbsp;</i></button>
+                                    <EditCollection collection={collection} />
                                 </li>
                             )
                         }

@@ -6,6 +6,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import HomePage from './Components/HomePage.jsx/HomePage';
 import CollectionViewer from './Components/CollectionViewer/CollectionViewer';
 import DeleteCollection from './Components/DeleteCollection/DeleteCollection';
+import EditCollection from './Components/EditCollection/EditCollection';
 
 function App() {
   const [user, setUser] = useState(undefined);
