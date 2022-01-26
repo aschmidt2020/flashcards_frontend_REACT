@@ -28,6 +28,7 @@ function App() {
     let response = await axios.get('http://127.0.0.1:8000/api/flashcard/allcollections/');
     setCollections(response.data)
   }
+
   async function login(username, password) {
     await axios({
       method: "post",
@@ -80,13 +81,18 @@ function App() {
 
   if (collections !== undefined){
     return (
-      <div>
-        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
-        <Routes>
-          <Route exact path='/' element={<HomePage collections={collections}/>}/>
-          <Route path='/collection' element={<CollectionViewer />}/>
-          <Route path='/deletecollection' element={<DeleteCollection />}/>
-        </Routes>
+      <div className='row'>
+        <div className='col-2'>
+          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} collections={collections}/>
+        </div>
+
+        <div className='col-10'>
+          <Routes>
+            <Route exact path='/' element={<HomePage collections={collections}/>}/>
+            <Route path='/collection' element={<CollectionViewer />}/>
+            <Route path='/deletecollection' element={<DeleteCollection />}/>
+          </Routes>
+        </div>
       </div>
     );
   }

@@ -13,7 +13,7 @@ const CollectionViewer = (props) => {
     useEffect(() => {
         getFlashcards(id);
         // eslint-disable-next-line
-      }, [])
+      }, [id])
 
     async function getFlashcards(collection_id){
         let response = await axios.get(`http://127.0.0.1:8000/api/flashcard/allflashcards/${collection_id}/`);
