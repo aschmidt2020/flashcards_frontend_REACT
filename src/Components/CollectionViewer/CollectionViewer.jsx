@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
+import AddFlashcard from '../AddFlashcard/AddFlashcard';
 
 const CollectionViewer = (props) => {
     const {state} = useLocation();
@@ -23,8 +24,8 @@ const CollectionViewer = (props) => {
                 <div className="col">
                     <ul className="ul-container">
                         {flashcards.map((flashcard, index) => {
-                           return (
-                               <li key={flashcard.id}>
+                            return (
+                                <li key={flashcard.id}>
                                   {flashcard.term}
                                   {flashcard.definition}
                                </li>
@@ -34,6 +35,7 @@ const CollectionViewer = (props) => {
                     </ul>
                 </div>
             </div>
+            <AddFlashcard collectionId={id}/>
         </div>
     );
 }
