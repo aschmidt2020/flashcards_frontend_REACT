@@ -10,7 +10,7 @@ const NavBar = (props) => {
     
     function navigateCollection(collection) {
         debugger
-        navigate("/collection", { state: {...collection}});
+        navigate(`/collection/${collection.id}`, { state: {...collection}});
     }
 
     return (
@@ -35,12 +35,22 @@ const NavBar = (props) => {
                         <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
                         {props.collections.map((collection, index) => {
+                            if(window.location.href.includes(collection.id)){
+                                return (
+                                    <li key={collection.id} >
+                                        <button className="btn btn-dark" onClick={() => navigateCollection(collection)}>{collection.name}</button>
+                                    </li>
+                                )
+                            }
+                            else {
                                 return (
                                     <li key={collection.id}>
                                         <button onClick={() => navigateCollection(collection)}>{collection.name}</button>
                                     </li>
                                 )
                             }
+                            
+                        }
                             )}  
                         </ul>
                         

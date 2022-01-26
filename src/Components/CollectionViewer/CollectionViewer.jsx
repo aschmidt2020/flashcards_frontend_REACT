@@ -24,10 +24,12 @@ const CollectionViewer = (props) => {
         <div>
             <div className="row">
                 <div className="col">
+                Current Set: {name}
                     <ul className="ul-container">
                         {flashcards.map((flashcard, index) => {
                             return (
                                 <li key={flashcard.id}>
+                                  {index}
                                   {flashcard.term}
                                   {flashcard.definition}
                                   <DeleteFlashCard flashcard={flashcard} />
@@ -39,6 +41,7 @@ const CollectionViewer = (props) => {
                     </ul>
                 </div>
             </div>
+            <small># Flashcards: {flashcards.length}</small>
             <AddFlashcard collectionId={id}/>
         </div>
     );

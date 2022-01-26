@@ -89,7 +89,7 @@ function App() {
         <div className='col-10'>
           <Routes>
             <Route exact path='/' element={<HomePage collections={collections}/>}/>
-            <Route path='/collection' element={<CollectionViewer />}/>
+            <Route path='/collection/:collectionId' element={<CollectionViewer />}/>
             <Route path='/deletecollection' element={<DeleteCollection />}/>
           </Routes>
         </div>
