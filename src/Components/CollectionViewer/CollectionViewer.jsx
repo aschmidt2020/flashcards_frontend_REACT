@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import AddFlashcard from '../AddFlashcard/AddFlashcard';
+import DeleteFlashCard from '../DeleteFlashCard/DeleteFlashCard';
 
 const CollectionViewer = (props) => {
     const {state} = useLocation();
@@ -28,6 +29,7 @@ const CollectionViewer = (props) => {
                                 <li key={flashcard.id}>
                                   {flashcard.term}
                                   {flashcard.definition}
+                                  <DeleteFlashCard flashcard={flashcard} />
                                </li>
                            )
                         }
