@@ -1,24 +1,17 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import useForm from "../CustomHooks/useForm";
 
 const LoginForm = (props) => {
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [show, setShow] = useState(false);
+    const { formValues, handleChange, handleSubmit } = useForm(login);
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
-  const handleShow = () => setShow(true);
-
-  function handleClose() {
-    setShow(false);
-    setUsername("");
-    setPassword("");
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    props.login(username, password);
+  function login() {
+    props.login(formValues.username, formValues.password);
   }
 
   return (
@@ -36,12 +29,12 @@ const LoginForm = (props) => {
           <form onSubmit={handleSubmit}>
             <div className="input-group mb-3">
               <span className="input-group-text">Username</span>
-              <input className="form-control" type="text" value={username} onChange={(e) => setUsername(e.target.value)}></input>
+              <input className="form-control" type="text" name="username" value={formValues.username} onChange={handleChange}></input>
             </div>
 
             <div className="input-group mb-3">
               <span className="input-group-text">Password</span>
-              <input className="form-control" type="password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+              <input className="form-control" type="password" name="password" value={formValues.password} onChange={handleChange}></input>
             </div>
           </form>
 
