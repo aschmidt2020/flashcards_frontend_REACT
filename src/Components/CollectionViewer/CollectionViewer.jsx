@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useLocation } from "react-router-dom";
 import AddFlashcard from '../AddFlashcard/AddFlashcard';
 import DeleteFlashCard from '../DeleteFlashCard/DeleteFlashCard';
+import EditFlashcard from '../EditFlashcard/EditFlashcard';
 
 const CollectionViewer = (props) => {
     const {state} = useLocation();
@@ -30,6 +31,7 @@ const CollectionViewer = (props) => {
                                   {flashcard.term}
                                   {flashcard.definition}
                                   <DeleteFlashCard flashcard={flashcard} />
+                                  <EditFlashcard flashcard={flashcard} />
                                </li>
                            )
                         }
