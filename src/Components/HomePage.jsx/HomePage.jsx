@@ -7,7 +7,7 @@ const HomePage = (props) => {
 
     function navigateCollection(collection) {
         debugger
-        navigate("/collection", { state: {...collection}});
+        navigate(`/collection/${collection.id}`, { state: {...collection}});
     }
 
     function navigateDeletion(collection) {
