@@ -3,10 +3,12 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import useForm from "../CustomHooks/useForm";
 import axios from 'axios';
+import { Link, useNavigate} from "react-router-dom";
 
 const AddCollection = (props) => {
     const { formValues, handleChange, handleSubmit } = useForm(addCollection);
     const [show, setShow] = useState(false);
+    const navigate = useNavigate();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -21,7 +23,9 @@ const AddCollection = (props) => {
           },
           data: formValues,
         }).then(response => {
-            window.location = "/";
+          debugger
+          //window.location('/')
+          navigate(`/collection/${response.data.id}`, { state: {...response.data}});
         }
         ).catch(error => {
           alert("Collection not able to be added at this time. Please try again later.")
