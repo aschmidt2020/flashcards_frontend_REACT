@@ -24,8 +24,9 @@ const AddCollection = (props) => {
           data: formValues,
         }).then(response => {
           debugger
-          //window.location('/')
+          window.location.reload();
           navigate(`/collection/${response.data.id}`, { state: {...response.data}});
+          setShow(false);
         }
         ).catch(error => {
           alert("Collection not able to be added at this time. Please try again later.")
@@ -35,7 +36,7 @@ const AddCollection = (props) => {
     return (
         <span id="add-collection">
         <Button variant="btn btn-outline-primary" onClick={handleShow} style={{ "marginLeft": "6em" }}>
-        <i className="bi bi-file-plus"></i>
+        Add Collection
         </Button>
   
         <Modal show={show} onHide={handleClose}>

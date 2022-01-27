@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import SideBar from './Components/SideBar/SideBar';
 import NavBar from './Components/NavBar/NavBar';
 import axios from "axios";
 import jwt_decode from "jwt-decode";
@@ -81,9 +82,11 @@ function App() {
 
   if (collections !== undefined){
     return (
+
       <div className='row'>
+        <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
         <div className='col-2'>
-          <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout} collections={collections}/>
+          <SideBar userInfo={userInfo} collections={collections}/>
         </div>
 
         <div className='col-10'>
