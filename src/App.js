@@ -15,19 +15,20 @@ import { updateFlashcards } from './features/Flashcards/FlashcardSlicer';
 import { updateCollections } from './features/Collections/CollectionSlicer';
 import { updateUserInfo } from './features/User/UserInfoSlicer';
 import { useFetchCollectionsQuery } from './features/Collections/CollectionsApiSlice';
+import { useGetUserInfoMutation } from './features/User/UserApiSlicer';
 
 function App() {
   const dispatch = useDispatch();
   const collections = useSelector((state) => state.collections.collections);
-  const { data = [] } = useFetchCollectionsQuery();
-  const [userInfo, setUserInfo] = useState(undefined);
-
+  const { data = [] } = useFetchCollectionsQuery(); //automatically runs query on load
+  const [getUserInfoReducer, { isUninitialized }] = useGetUserInfoMutation();
+  
   useEffect(() => {
     const tokenFromStorage = localStorage.getItem("token");
     try {
       const decodedUser = jwt_decode(tokenFromStorage);
       dispatch(loginReducer(decodedUser));
-      getUserInfo(decodedUser, tokenFromStorage);
+      getUserInfo(decodedUser.user_id);
     } catch { }
     // eslint-disable-next-line
   }, [])
@@ -38,62 +39,20 @@ function App() {
     }
   }, [data])
 
-  // async function login(username, password) {
-  //   await axios({
-  //     method: "post",
-  //     url: "http://127.0.0.1:8000/api/auth/login/",
-  //     headers: {},
-  //     data: {
-  //       "username": username,
-  //       "password": password
-  //     }
-  //   }).then(response => {
-  //     localStorage.setItem("token", response.data.access);
-  //     window.location = "/";
-  //   }
-  //   ).catch(error => {
-  //     debugger
-  //     alert(error.response.statusText)
-  //   })
-  // }
 
-  async function getUserInfo(user, token) {
-    await axios({
-      method: "get",
-      url: `http://127.0.0.1:8000/api/flashcard/user/${user.user_id}/`,
-      headers: {
-        Authorization: "Bearer " + token
-      },
-    }).then(response => {
-      setUserInfo(response.data);
-      dispatch(updateUserInfo(response.data));
-    })
+  async function getUserInfo(userId) {
+    try{
+      let response = await getUserInfoReducer(userId);
+      dispatch(updateUserInfo(response.data))
+    }
+    catch(err){
+      alert(err);
+      console.log(err)
+    }
   }
-
-  // async function logout() {
-  //   localStorage.removeItem("token");
-  //   window.location = "/";
-  // }
-
-  // async function register(userInfo) {
-  //   await axios({
-  //     method: "post",
-  //     url: "http://127.0.0.1:8000/api/auth/register/",
-  //     headers: {},
-  //     data: userInfo
-  //   }).then(response => {
-  //     login(userInfo.username, userInfo.password)
-  //   }
-  //   ).catch(error => {
-  //     debugger
-  //     alert("Account creation failed. Please enter all required fields.")
-  //   })
-
-  // }
 
   if (collections !== undefined){
     return (
-
       <div className='row'>
         <NavBar/>
         <div className='col-2'>
