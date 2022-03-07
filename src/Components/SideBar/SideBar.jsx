@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
-import LoginForm from "../LoginForm/LoginForm";
-import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import AddCollection from "../AddCollection/AddCollection";
 import { useSelector, useDispatch } from "react-redux";
 

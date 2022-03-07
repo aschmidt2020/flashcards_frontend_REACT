@@ -1,6 +1,4 @@
 import { Link } from "react-router-dom";
-import LoginForm from "../LoginForm/LoginForm";
-import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Flash from "../Images/Flash.jpg";
 import AddCollection from "../AddCollection/AddCollection";
 import { logoutReducer } from  '../../features/User/UserSlicer';
