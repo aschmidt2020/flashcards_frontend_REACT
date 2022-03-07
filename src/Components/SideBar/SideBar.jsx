@@ -3,17 +3,18 @@ import { Link, useNavigate} from "react-router-dom";
 import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import AddCollection from "../AddCollection/AddCollection";
+import { useSelector, useDispatch } from "react-redux";
 
 const SideBar = (props) => {
     const [url, setUrl] = useState('');
+    const collections = useSelector((state) => state.collections.collections);
+    const navigate = useNavigate();
 
     useEffect(() => {
         let baseurl = window.location.href;
         setUrl(parseInt(baseurl.slice(33)));
     },[window.location.href])
 
-    const navigate = useNavigate();
-    
     function navigateCollection(collection) {
         debugger
         navigate(`/collection/${collection.id}`, { state: {...collection}});
@@ -32,7 +33,7 @@ const SideBar = (props) => {
                         </h2>
                         <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
-                        {props.collections.map((collection, index) => {
+                        {collections.map((collection, index) => {
                             if(url === collection.id){
                                 return (
                                     <li key={collection.id} >

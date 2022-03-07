@@ -7,6 +7,7 @@ import useForm from "../CustomHooks/useForm";
 const RegistrationForm = (props) => {
 
   const { formValues, handleChange, handleSubmit } = useForm(register);
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [show, setShow] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -16,10 +17,9 @@ const RegistrationForm = (props) => {
 
   function register() {
 
-    if (formValues.password === formValues.passwordCheck) {
+    if (formValues.password === passwordCheck) {
       let userInfo = {...formValues}
       props.register(userInfo);
-      debugger
       setPasswordError(false);
     }
     else {
@@ -79,13 +79,13 @@ const RegistrationForm = (props) => {
             {!passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Re-type Password</span>
-                <input className="form-control" type="password" value={formValues.passwordCheck} onChange={handleChange} required={true}></input>
+                <input className="form-control" type="password" value={passwordCheck} onChange={(event) => setPasswordCheck(event.target.value)} required={true}></input>
               </div>
             }
             {passwordError &&
               <div className="input-group mb-3">
                 <span className="input-group-text">Re-type Password</span>
-                <input className="form-control is-invalid" type="password" value={formValues.passwordCheck} onChange={handleChange} required={true}></input>
+                <input className="form-control is-invalid" type="password" value={passwordCheck} onChange={(event) => setPasswordCheck(event.target.value)} required={true}></input>
               </div>
             }
 

@@ -5,11 +5,14 @@ import AddFlashcard from '../AddFlashcard/AddFlashcard';
 import DeleteFlashCard from '../DeleteFlashCard/DeleteFlashCard';
 import EditFlashcard from '../EditFlashcard/EditFlashcard';
 import Flashcard from '../Flashcard/Flashcard';
+import { useSelector, useDispatch } from "react-redux";
+import { updateFlashcards } from '../../features/Flashcards/FlashcardSlicer';
 
 const CollectionViewer = (props) => {
     const {state} = useLocation();
+    const dispatch = useDispatch();
+    const flashcards = useSelector((state) => state.flashcards.flashcards);
     const { id, user, name } = state;
-    const [flashcards, setFlashcards] = useState([]);
     const [flashcard, setFlashCard] = useState({});
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -20,7 +23,7 @@ const CollectionViewer = (props) => {
 
     async function getFlashcards(collection_id){
         let response = await axios.get(`http://127.0.0.1:8000/api/flashcard/allflashcards/${collection_id}/`);
-        setFlashcards(response.data);
+        dispatch(updateFlashcards(response.data))
         setFlashCard(response.data[0])
     }
 
@@ -69,16 +72,3 @@ const CollectionViewer = (props) => {
 }
  
 export default CollectionViewer;
-
-// {/* <ul className="ul-container"> */}
-// {flashcards.map((flashcard, index) => {
-//     return (
-//         <li key={flashcard.id}>
-//           <Flashcard flashcard={flashcard} collection={name}/>
-//           <DeleteFlashCard flashcard={flashcard} />
-//           <EditFlashcard flashcard={flashcard} />
-//         </li>
-//    )
-// }
-// )}
-{/* </ul> */}

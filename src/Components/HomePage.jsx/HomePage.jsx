@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate} from "react-router-dom";
 import EditCollection from '../EditCollection/EditCollection';
+import { useSelector, useDispatch } from "react-redux";
 
 const HomePage = (props) => {
     const navigate = useNavigate();
+    const collections = useSelector((state) => state.collections.collections);
 
     function navigateCollection(collection) {
         debugger
@@ -20,7 +22,7 @@ const HomePage = (props) => {
             <div className="row">
                 <div className="col">
                     <ul className="ul-container">
-                        {props.collections.map((collection, index) => {
+                        {collections.map((collection, index) => {
                             return (
                                 <li key={collection.id}>
                                     <button onClick={() => navigateCollection(collection)}>{collection.name}</button>

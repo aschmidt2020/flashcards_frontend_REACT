@@ -11,6 +11,7 @@ const LoginForm = (props) => {
     const handleShow = () => setShow(true);
 
   function login() {
+    debugger
     props.login(formValues.username, formValues.password);
   }
 

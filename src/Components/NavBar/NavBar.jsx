@@ -3,8 +3,11 @@ import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Flash from "../Images/Flash.jpg";
 import AddCollection from "../AddCollection/AddCollection";
+import { useSelector, useDispatch } from "react-redux";
 
 const NavBar = (props) => {
+    const userRedux = useSelector((state) => state.userInfo.userInfo);
+
     return (
         <div>
             <nav className="navbar navbar-expand-md navbar-light bg-light sticky-top">
@@ -19,8 +22,8 @@ const NavBar = (props) => {
                             <Link to="/" className="navbar-brand" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
                             <img src={Flash} style={{ "height": "40px", "width": "30px", "marginTop": "0.4em" }} alt="OurTube Logo"/>
                             <h4 style={{ "marginBottom": "0em" }}>FlashParadise</h4>
-                            {props.userInfo && <span className="navbar-welcome-text">Welcome {props.userInfo.username}!</span>}
-                            {!props.userInfo && <span className="navbar-welcome-text">Please log-in.</span>}
+                            {userRedux && <span className="navbar-welcome-text">Welcome {userRedux}!</span>}
+                            {!userRedux && <span className="navbar-welcome-text">Please log-in.</span>}
                             </Link>
                         </li>
                         <li className="nav-item">

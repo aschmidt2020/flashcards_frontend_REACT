@@ -8,11 +8,18 @@ import HomePage from './Components/HomePage.jsx/HomePage';
 import CollectionViewer from './Components/CollectionViewer/CollectionViewer';
 import DeleteCollection from './Components/DeleteCollection/DeleteCollection';
 import EditCollection from './Components/EditCollection/EditCollection';
+import Authentication from './features/Authentication/Authentication';
+import { loginReducer, logoutReducer, registerReducer } from "../src/features/User/UserSlicer";
+import { useSelector, useDispatch } from "react-redux";
+import { updateFlashcards } from './features/Flashcards/FlashcardSlicer';
+import { updateCollections } from './features/Collections/CollectionSlicer';
+import { updateUserInfo } from './features/User/UserInfoSlicer';
 
 function App() {
+  const dispatch = useDispatch();
+  const collections = useSelector((state) => state.collections.collections);
   const [user, setUser] = useState(undefined);
   const [userInfo, setUserInfo] = useState(undefined);
-  const [collections, setCollections] = useState([]);
 
   useEffect(() => {
     getAllCollections();
@@ -20,6 +27,8 @@ function App() {
     try {
       const decodedUser = jwt_decode(tokenFromStorage);
       setUser(decodedUser);
+      let userList = Object.entries(decodedUser);
+      dispatch(loginReducer(userList));
       getUserInfo(decodedUser, tokenFromStorage);
     } catch { }
     // eslint-disable-next-line
@@ -27,7 +36,7 @@ function App() {
 
   async function getAllCollections () {
     let response = await axios.get('http://127.0.0.1:8000/api/flashcard/allcollections/');
-    setCollections(response.data)
+    dispatch(updateCollections(response.data))
   }
 
   async function login(username, password) {
@@ -44,7 +53,8 @@ function App() {
       window.location = "/";
     }
     ).catch(error => {
-      alert("Incorrect username or password. Please try again.")
+      debugger
+      alert(error.response.statusText)
     })
   }
 
@@ -57,6 +67,7 @@ function App() {
       },
     }).then(response => {
       setUserInfo(response.data);
+      dispatch(updateUserInfo(response.data.username));
     })
   }
 
@@ -75,6 +86,7 @@ function App() {
       login(userInfo.username, userInfo.password)
     }
     ).catch(error => {
+      debugger
       alert("Account creation failed. Please enter all required fields.")
     })
 
@@ -84,6 +96,7 @@ function App() {
     return (
 
       <div className='row'>
+        {/* <Authentication /> */}
         <NavBar user={user} userInfo={userInfo} register={register} login={login} logout={logout}/>
         <div className='col-2'>
           <SideBar userInfo={userInfo} collections={collections}/>
