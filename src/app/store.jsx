@@ -1,19 +1,21 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "../features/User/UserSlicer"
+import userReducer from '../features/User/UserSlicer';
+import userInfoReducer from '../features/User/UserInfoSlicer';
+import flashcardReducer from '../features/Flashcards/FlashcardSlicer';
+import collectionReducer from '../features/Collections/CollectionSlicer'
+import { collectionApiSlice } from "../features/Collections/CollectionsApiSlice";
 import { authSlice } from "../features/Authentication/AuthenticationSlicer";
-import { flashcardSlice } from "../features/Flashcards/FlashcardSlicer";
-import { collectionSlice } from "../features/Collections/CollectionSlicer";
-import { userInfoSlice } from "../features/User/UserInfoSlicer";
 
 export const store = configureStore({
   reducer: {
-    user: userSlice.reducer,
-    userInfo: userInfoSlice.reducer,
-    flashcards: flashcardSlice.reducer,
-    collections: collectionSlice.reducer
-    // [authSlice.reducerPath]: authSlice.reducer,
+    user: userReducer,
+    userInfo: userInfoReducer,
+    flashcards: flashcardReducer,
+    collections: collectionReducer,
+    [collectionApiSlice.reducerPath]: collectionApiSlice.reducer,
+    [authSlice.reducerPath]: authSlice.reducer,
   },
-//   middleware: (getDefaultMiddleware) => {
-//     return getDefaultMiddleware().concat(authSlice.middleware); //.concat(additional reducer for all reducers)
-//   },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware().concat(collectionApiSlice.middleware).concat(authSlice.middleware); //.concat(additional reducer for all reducers)
+  },
 });

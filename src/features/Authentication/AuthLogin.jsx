@@ -1,25 +1,32 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useLoginMutation, useRegisterMutation } from "./AuthenticationSlicer";
-import { login, logout, register } from "../User/UserSlicer";
+import { loginReducer, logout, register } from "../User/UserSlicer";
 import React, { useState, useEffect } from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import useForm from "../../Components/CustomHooks/useForm";
 
-const Authentication = (props) => {
-    // const user = useSelector((state) => state.user.value);
-    // const dispatch = useDispatch();
-    const { formValues, handleChange, handleSubmit } = useForm(login);
-   
+const AuthLogin = (props) => {
+    const { formValues, handleChange, handleSubmit } = useForm(getToken);
+    const [loginFunction, { isLoading }] = useLoginMutation();
+    const canLogin = [formValues.username, formValues.password].every(Boolean) && !isLoading
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-  function login() {
-    // dispatch(login(user))
-    //  const { data = [] } = useLoginMutation({"username": formValues.username, "password": formValues.password});
-    console.log('hello world')
-  }
+    async function getToken() {
+    if(canLogin){
+        try{
+            let response = await loginFunction({ "username": formValues.username, "password": formValues.password }).unwrap();
+            localStorage.setItem("token", response.access);
+            window.location = '/';
+        }
+        catch (err){
+            console.log(err);
+            alert(err)
+        }
+    }
+    }
 
     return (
         <span id="log-in">
@@ -59,4 +66,4 @@ const Authentication = (props) => {
     );
 }
  
-export default Authentication;
+export default AuthLogin;

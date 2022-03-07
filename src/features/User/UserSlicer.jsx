@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { useRoutes } from "react-router-dom";
 
 const initialState = {
-  user: []
+  user: null
 };
 
 export const userSlice = createSlice({
@@ -13,9 +13,7 @@ export const userSlice = createSlice({
         state.user = user.payload
     },
     logoutReducer(state) {
-        state.value = null;
-        localStorage.removeItem("token");
-        window.location = "/";
+        state.user = null;
     },
     registerReducer(state, user) {
         state.user = user.payload

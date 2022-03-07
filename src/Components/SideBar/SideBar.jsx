@@ -11,13 +11,13 @@ const SideBar = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        let baseurl = window.location.href;
-        setUrl(parseInt(baseurl.slice(33)));
+        let currentWindow = window.location.href.split('/');
+        setUrl(currentWindow[4]);
     },[window.location.href])
 
     function navigateCollection(collection) {
         debugger
-        navigate(`/collection/${collection.id}`, { state: {...collection}});
+        navigate(`/collection/${(collection.name).split(' ').join('')}`, { state: {...collection}});
     }
 
     return (
@@ -34,7 +34,7 @@ const SideBar = (props) => {
                         <div id="flush-collapseOne" className="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                         <ul>
                         {collections.map((collection, index) => {
-                            if(url === collection.id){
+                            if(url && url.localeCompare((collection.name).split(' ').join('')) ===0){
                                 return (
                                     <li key={collection.id} >
                                         <button className="btn btn-dark" onClick={() => navigateCollection(collection)}>{collection.name}</button>

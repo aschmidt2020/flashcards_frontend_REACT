@@ -3,10 +3,20 @@ import LoginForm from "../LoginForm/LoginForm";
 import RegistrationForm from "../RegistrationForm/RegistrationForm";
 import Flash from "../Images/Flash.jpg";
 import AddCollection from "../AddCollection/AddCollection";
+import { logoutReducer } from  '../../features/User/UserSlicer';
 import { useSelector, useDispatch } from "react-redux";
+import AuthLogin from "../../features/Authentication/AuthLogin";
+import AuthRegister from "../../features/Authentication/AuthRegister";
 
 const NavBar = (props) => {
-    const userRedux = useSelector((state) => state.userInfo.userInfo);
+    const userInfoRedux = useSelector((state => state.userInfo.userInfo))
+    const dispatch = useDispatch();
+
+    function logout() {
+        localStorage.removeItem("token");
+        window.location = "/";
+        dispatch(logoutReducer);
+    }
 
     return (
         <div>
@@ -22,13 +32,13 @@ const NavBar = (props) => {
                             <Link to="/" className="navbar-brand" data-toggle="popover" title="Home" data-content="Home" trigger="hover">
                             <img src={Flash} style={{ "height": "40px", "width": "30px", "marginTop": "0.4em" }} alt="OurTube Logo"/>
                             <h4 style={{ "marginBottom": "0em" }}>FlashParadise</h4>
-                            {userRedux && <span className="navbar-welcome-text">Welcome {userRedux}!</span>}
-                            {!userRedux && <span className="navbar-welcome-text">Please log-in.</span>}
+                            {userInfoRedux && <span className="navbar-welcome-text">Welcome {userInfoRedux.username}!</span>}
+                            {!userInfoRedux && <span className="navbar-welcome-text">Please log-in.</span>}
                             </Link>
                         </li>
                         <li className="nav-item">
-                        {!props.userInfo && <span> <LoginForm login={props.login} /> <RegistrationForm register={props.register} /> </span>}
-                        {props.userInfo && <button type="button" className="btn btn-outline-danger" onClick={props.logout}>Log Out</button>}
+                        {!userInfoRedux && <span> <AuthLogin /> <AuthRegister /> </span>}
+                        {userInfoRedux && <button type="button" className="btn btn-outline-danger" onClick={logout}>Log Out</button>}
                         </li>
 
                         

@@ -4,11 +4,13 @@ import Button from "react-bootstrap/Button";
 import useForm from "../CustomHooks/useForm";
 import axios from 'axios';
 import { Link, useNavigate} from "react-router-dom";
+import { useFetchCollectionsQuery } from '../../features/Collections/CollectionsApiSlice';
 
 const AddCollection = (props) => {
     const { formValues, handleChange, handleSubmit } = useForm(addCollection);
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
+    const { data = [] } = useFetchCollectionsQuery();
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -25,7 +27,7 @@ const AddCollection = (props) => {
         }).then(response => {
           debugger
           window.location.reload();
-          navigate(`/collection/${response.data.id}`, { state: {...response.data}});
+          // navigate(`/collection/${response.data.id}`, { state: {...response.data}});
           setShow(false);
         }
         ).catch(error => {
