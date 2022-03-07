@@ -1,27 +1,33 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-//const API_KEY = can put api key here if needed, see headers below for how to use in api call
+const jwt = localStorage.getItem("token");
 
 export const collectionApiSlice = createApi({
     reducerPath: "collectionApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "http://127.0.0.1:8000/api/flashcard/",
-        // prepareHeaders(headers) {
-        //     headers.set("x-api-key", API_KEY); //check what dictionary key-value pair is needed
-        //     headers.set("Bearer ", token); //use this for JWT tokens
-        //     return headers
-        // },
+        prepareHeaders(headers) {
+            headers.set("Authorization", `Bearer ${jwt}`); //use this for JWT tokens
+            return headers
+        },
     }),
-    endpoints(builder) {
-        return {
-            fetchCollections: builder.query({
-                query() { //parameters inside query()
-                    return `allcollections/`;
-                },
-            }),
-            //additional endpoints here
-        };
-    },
+    
+    endpoints: builder => ({
+        fetchCollections: builder.query({
+            query: () => ({
+                url: 'allcollections/',
+                method: 'GET',
+            })
+        }),
+        addCollection: builder.mutation({
+            query: newCollectionInfo => ({
+                url: 'addcollection/',
+                method: 'POST',
+                body: newCollectionInfo
+            })
+        })
+
+    })
 });
 
-export const { useFetchCollectionsQuery } = collectionApiSlice;
+export const { useFetchCollectionsQuery, useAddCollectionMutation } = collectionApiSlice;

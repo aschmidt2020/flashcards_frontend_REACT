@@ -7,6 +7,7 @@ const SideBar = (props) => {
     const [url, setUrl] = useState('');
     const collections = useSelector((state) => state.collections.collections);
     const navigate = useNavigate();
+    const userInfoRedux = useSelector((state => state.userInfo.userInfo))
 
     useEffect(() => {
         let currentWindow = window.location.href.split('/');
@@ -56,7 +57,7 @@ const SideBar = (props) => {
                     </div>
                     </div>
                     <li className="nav-item">
-                        {props.userInfo && <span><AddCollection /></span>}
+                        {userInfoRedux && <span><AddCollection /></span>}
                     </li>
                 </ul>
         </nav>

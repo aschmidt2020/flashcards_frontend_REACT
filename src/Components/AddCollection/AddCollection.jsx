@@ -2,38 +2,30 @@ import React, { useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import useForm from "../CustomHooks/useForm";
-import axios from 'axios';
-import { Link, useNavigate} from "react-router-dom";
-import { useFetchCollectionsQuery } from '../../features/Collections/CollectionsApiSlice';
+import { useAddCollectionMutation } from '../../features/Collections/CollectionsApiSlice';
 
 const AddCollection = (props) => {
     const { formValues, handleChange, handleSubmit } = useForm(addCollection);
     const [show, setShow] = useState(false);
-    const navigate = useNavigate();
-    const { data = [] } = useFetchCollectionsQuery();
+    const [addCollectionReducer, { isLoading }] = useAddCollectionMutation();
+    const canAdd = [formValues.name].every(Boolean) && !isLoading
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     async function addCollection() {
-        const jwt = localStorage.getItem("token");
-        await axios({
-          method: "post",
-          url: "http://127.0.0.1:8000/api/flashcard/addcollection/",
-          headers: {
-            Authorization: "Bearer " + jwt
-          },
-          data: formValues,
-        }).then(response => {
-          debugger
-          window.location.reload();
-          // navigate(`/collection/${response.data.id}`, { state: {...response.data}});
+      if(canAdd){
+        try{
+          let response = await addCollectionReducer({ "name": formValues.name});
           setShow(false);
+          window.location.reload();
         }
-        ).catch(error => {
-          alert("Collection not able to be added at this time. Please try again later.")
-        })
+        catch(err){
+          console.log(err);
+          alert(err)
+        }
       }
+    }
 
     return (
         <span id="add-collection">
